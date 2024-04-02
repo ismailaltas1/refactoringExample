@@ -5,39 +5,29 @@ using RefactoringExample;
 
 Console.WriteLine("Hello, World!");
 
-var playsJson = @"{
-          ""hamlet"": {""name"": ""Hamlet"", ""type"": ""tragedy""},
-          ""as-like"": {""name"": ""As You Like It"", ""type"": ""comedy""},
-          ""othello"": {""name"": ""Othello"", ""type"": ""tragedy""}
-        }";
-var plays = JsonConvert.DeserializeObject<Dictionary<string, Play>>(playsJson);
-
-// Create invoice
-var invoiceJson = @"[
-          {
-            ""customer"": ""BigCo"",
-            ""performances"": [
-              {
-                ""playID"": ""hamlet"",
-                ""audience"": 55
-              },
-              {
-                ""playID"": ""as-like"",
-                ""audience"": 35
-              },
-              {
-                ""playID"": ""othello"",
-                ""audience"": 40
-              }
-            ]
-          }
-        ]";
-var invoices = JsonConvert.DeserializeObject<List<Invoice>>(invoiceJson);
-
-// Generate and print statement
-foreach (var invoice in invoices)
+// Arrange
+var plays = new List<Play>()
 {
-  var invoiceStatement = new InvoiceStatement();
-    var statement = invoiceStatement.GenerateStatement(invoice, plays);
-    System.Console.WriteLine(statement);
-}
+  new Play { Name = "hamlet", Type = "tragedy" },
+  new Play { Name = "as-like", Type = "comedy" },
+  new Play { Name = "othello", Type = "tragedy" },
+  new Play { Name = "as-like-2", Type = "comedy" }
+ 
+};
+
+var invoice = new Invoice
+(
+  "BigCo",
+  new List<Performance>
+  {
+    new Performance { PlayID = "hamlet", Audience = 35 },
+    new Performance { PlayID = "as-like", Audience = 35 },
+    new Performance { PlayID = "othello", Audience = 20 },
+    new Performance { PlayID = "as-like-2", Audience = 18 },
+  },
+  plays
+);
+
+
+var statement = invoice.GenerateStatement();
+System.Console.WriteLine(statement);

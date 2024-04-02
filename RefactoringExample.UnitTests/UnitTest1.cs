@@ -10,31 +10,31 @@ public class Tests
     public void TestGenerateStatement()
     {
         // Arrange
-        var plays = new Dictionary<string, Play>
+        var plays = new List<Play>()
         {
-            {"hamlet", new Play { Name = "Hamlet", Type = "tragedy" } },
-            {"as-like", new Play { Name = "As You Like It", Type = "comedy" } },
-            {"othello", new Play { Name = "Othello", Type = "tragedy" } },
-            {"as-like-2", new Play { Name = "As You Like It-2", Type = "comedy" } },
+            new Play { Name = "hamlet", Type = "tragedy" },
+            new Play { Name = "as-like", Type = "comedy" },
+            new Play { Name = "othello", Type = "tragedy" },
+            new Play { Name = "as-like-2", Type = "comedy" }
+ 
         };
-
         var invoice = new Invoice
-        {
-            Customer = "BigCo",
-            Performances = new List<Performance>
+        (
+            "BigCo",
+            new List<Performance>
             {
                 new Performance { PlayID = "hamlet", Audience = 35 },
                 new Performance { PlayID = "as-like", Audience = 35 },
                 new Performance { PlayID = "othello", Audience = 20 },
                 new Performance { PlayID = "as-like-2", Audience = 18 },
-            }
-        };
+            },
+            plays
+        );
 
-        // Act
-        var invoiceStatement = new InvoiceStatement();
-        var exptectedResult = invoiceStatement.GenerateStatement(invoice, plays);
+ 
+        var exptectedResult = invoice.GenerateStatement();
         
-        string expectedStatement = "Statement for BigCo\n  Hamlet: $450.00 (35 seats)\n  As You Like It: $580.00 (35 seats)\n  Othello: $400.00 (20 seats)\n  As You Like It-2: $354.00 (18 seats)\nAmount owed is $1,784.00\nYou earned 20 credits\n";
+        string expectedStatement = "Statement for BigCo\n  hamlet: $450.00 (35 seats)\n  as-like: $580.00 (35 seats)\n  othello: $400.00 (20 seats)\n  as-like-2: $354.00 (18 seats)\nAmount owed is $1,784.00\nYou earned 20 credits\n";
 
         // Assert
         Assert.IsNotNull(exptectedResult);
