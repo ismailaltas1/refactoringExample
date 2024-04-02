@@ -20,26 +20,7 @@ public class InvoiceStatement
             Play play = plays[perf.PlayID];
             decimal thisAmount = 0;
 
-            switch (play.Type)
-            {
-                case "tragedy":
-                    thisAmount = 40000;
-                    if (perf.Audience > 30)
-                    {
-                        thisAmount += 1000 * (perf.Audience - 30);
-                    }
-                    break;
-                case "comedy":
-                    thisAmount = 30000;
-                    if (perf.Audience > 20)
-                    {
-                        thisAmount += 10000 + 500 * (perf.Audience - 20);
-                    }
-                    thisAmount += 300 * perf.Audience;
-                    break;
-                default:
-                    throw new Exception($"unknown type: {play.Type}");
-            }
+            thisAmount = getAmount(play, perf);
 
             // add volume credits
             volumeCredits += Math.Max(perf.Audience - 30, 0);
@@ -53,6 +34,33 @@ public class InvoiceStatement
         result += $"Amount owed is {totalAmount / 100:C}\n";
         result += $"You earned {volumeCredits} credits\n";
         return result;
+    }
+
+    private static decimal getAmount(Play play, Performance perf)
+    {
+        decimal thisAmount = 0;
+        switch (play.Type)
+        {
+            case "tragedy":
+                thisAmount = 40000;
+                if (perf.Audience > 30)
+                {
+                    thisAmount += 1000 * (perf.Audience - 30);
+                }
+                break;
+            case "comedy":
+                thisAmount = 30000;
+                if (perf.Audience > 20)
+                {
+                    thisAmount += 10000 + 500 * (perf.Audience - 20);
+                }
+                thisAmount += 300 * perf.Audience;
+                break;
+            default:
+                throw new Exception($"unknown type: {play.Type}");
+        }
+
+        return thisAmount;
     }
 }
 
