@@ -2,17 +2,11 @@ using RefactoringExample.Domain;
 
 namespace RefactoringExample.Calculator;
 
-public abstract class PerformanceCalculator
+public abstract class PerformanceCalculator(Performance performance, Play play)
 {
-    protected readonly Performance _performance;
-    protected readonly Play _play;
-
-    protected PerformanceCalculator(Performance performance, Play play)
-    {
-        _performance = performance;
-        _play = play;
-    }
+    protected readonly Performance Performance = performance;
+    protected readonly Play Play = play;
 
     public abstract decimal Amount { get; }
-    public virtual int VolumeCredits => Math.Max(_performance.Audience - 30, 0);
+    public virtual int VolumeCredits => Math.Max(Performance.Audience - 30, 0);
 }

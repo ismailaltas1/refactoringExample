@@ -6,8 +6,6 @@ using RefactoringExample.Statements;
 namespace RefactoringExample.Render;
 public static class HtmlStatementRenderer
 {
-
-
     public static string Render(StatementData data)
     {
         string result = $"<h1>Statement for {data.Customer}</h1>\n";
