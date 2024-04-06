@@ -1,4 +1,4 @@
-﻿namespace RefactoringExample;
+﻿namespace RefactoringExample.Domain;
 
 public class Performance
 {

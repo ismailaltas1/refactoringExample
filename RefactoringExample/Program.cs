@@ -3,6 +3,10 @@
 using Newtonsoft.Json;
 using RefactoringExample;
 using RefactoringExample.Calculator;
+using RefactoringExample.Domain;
+using RefactoringExample.Enums;
+using RefactoringExample.Render;
+using RefactoringExample.Statements;
 
 Console.WriteLine("Hello, World!");
 
@@ -29,8 +33,9 @@ var invoice = new Invoice
   plays
 );
 
+var statementData = new StatementCalculator().CreateStatementData(invoice);
 
-var statement = invoice.HtmlStatement();
-var htmlStatement = invoice.TextStatement();
+var statement = RenderFactory.Render(statementData, RenderType.PlainText);
+var htmlStatement = RenderFactory.Render(statementData, RenderType.Html);
 System.Console.WriteLine(statement);
 Console.Write(htmlStatement);

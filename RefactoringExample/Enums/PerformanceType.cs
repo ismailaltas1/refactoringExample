@@ -1,4 +1,4 @@
-namespace RefactoringExample.Calculator;
+namespace RefactoringExample.Enums;
 
 public enum PerformanceType
 {

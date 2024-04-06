@@ -1,6 +1,6 @@
-﻿using RefactoringExample.Calculator;
+﻿using RefactoringExample.Enums;
 
-namespace RefactoringExample;
+namespace RefactoringExample.Domain;
 public class Play
 {
     public string Name { get; set; }
