@@ -34,7 +34,7 @@ public class Tests
  
         var actualResult = invoice.GenerateStatement();
         
-        string expectedStatement = "Statement for BigCo\n  hamlet: \u20ba450,00 (35 seats)\n  as-like: \u20ba580,00 (35 seats)\n  othello: \u20ba400,00 (20 seats)\n  as-like-2: \u20ba354,00 (18 seats)\nAmount owed is \u20ba1.784,00\nYou earned 20 credits\n";
+        string expectedStatement = "Statement for BigCo\n  hamlet: $450.00 (35 seats)\n  as-like: $580.00 (35 seats)\n  othello: $400.00 (20 seats)\n  as-like-2: $354.00 (18 seats)\nAmount owed is $1,784.00\nYou earned 20 credits\n";
 
         // Assert
         Assert.IsNotNull(actualResult);

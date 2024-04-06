@@ -28,27 +28,40 @@ public class Invoice
         decimal totalAmount = 0;
         int volumeCredits = 0;
         string result = $"Statement for {Customer}\n";
-        CultureInfo cultureInfo = new CultureInfo("en-US");
-        NumberFormatInfo numberFormat = cultureInfo.NumberFormat;
-        numberFormat.CurrencySymbol = "USD";
+
 
         foreach (Performance perf in Performances)
         {
-           
-            decimal thisAmount = 0;
-
-            thisAmount = GetAmount(perf);
-            volumeCredits += Math.Max(perf.Audience - 30, 0);
-            if ("comedy" == PlayFor(perf).Type) volumeCredits += perf.Audience / 5;
-            result += $"  {PlayFor(perf).Name}: {thisAmount / 100:C} ({perf.Audience} seats)\n";
-            totalAmount += thisAmount;
+            volumeCredits += VolumeCreditsFor( perf);
+            result += $"  {PlayFor(perf).Name}: {Usd(AmountFor(perf))} ({perf.Audience} seats)\n";
+            totalAmount += AmountFor(perf);
         }
-        result += $"Amount owed is {totalAmount / 100:C}\n";
+        result += $"Amount owed is {Usd(totalAmount)}\n";
         result += $"You earned {volumeCredits} credits\n";
         return result;
     }
 
-    private decimal GetAmount( Performance perf)
+    private string Usd(decimal aNumber)
+    {
+        CultureInfo cultureInfo = new CultureInfo("en-US");
+        NumberFormatInfo numberFormat = cultureInfo.NumberFormat;
+        numberFormat.CurrencySymbol = "$";
+        numberFormat.CurrencyDecimalDigits = 2;
+
+        return (aNumber / 100M).ToString("C", numberFormat);
+    }
+
+    private int VolumeCreditsFor( Performance perf)
+    {
+        int result = 0;
+        result += Math.Max(perf.Audience - 30, 0);
+        if ("comedy" == PlayFor(perf).Type) result += perf.Audience / 5;
+        return result;
+    }
+
+
+
+    private decimal AmountFor( Performance perf)
     {
         
         decimal result = 0;
