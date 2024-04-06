@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace RefactoringExample.Enums;
+namespace RefactoringExample.Helper;
 
 public static class FormatHelper
 {

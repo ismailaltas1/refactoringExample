@@ -1,6 +1,7 @@
 using RefactoringExample.Calculator;
 using RefactoringExample.Domain;
 using RefactoringExample.Enums;
+using RefactoringExample.Helper;
 using RefactoringExample.Statements;
 
 namespace RefactoringExample.Render;
