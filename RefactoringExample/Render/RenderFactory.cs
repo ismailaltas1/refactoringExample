@@ -1,6 +1,5 @@
 using RefactoringExample.Enums;
 using RefactoringExample.Statements;
-
 namespace RefactoringExample.Render;
 
 public static class RenderFactory

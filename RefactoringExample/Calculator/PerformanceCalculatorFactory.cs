@@ -1,20 +1,18 @@
 using RefactoringExample.Domain;
+using RefactoringExample.Enums;
 
 namespace RefactoringExample.Calculator;
 
 
 public static class PerformanceCalculatorFactory
 {
-    public static PerformanceCalculator CreatePerformanceCalculator(Performance aPerformance, Play aPlay)
+    public static PerformanceCalculator CreatePerformanceCalculator(Performance aPerformance, PerformanceType aPerformanceType)
     {
-        switch (aPlay.Type)
+        return aPerformanceType switch
         {
-            case "tragedy":
-                return new TragedyCalculator(aPerformance, aPlay);
-            case "comedy":
-                return new ComedyCalculator(aPerformance, aPlay);
-            default:
-                throw new ArgumentException($"Unknown type: {aPlay.Type}", nameof(aPlay));
-        }
+            PerformanceType.Tragedy => new TragedyPerformanceCalculator(aPerformance),
+            PerformanceType.Comedy => new ComedyPerformanceCalculator(aPerformance),
+            _ => throw new ArgumentException($"Unknown type: {aPerformanceType}")
+        };
     }
 }

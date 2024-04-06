@@ -1,6 +1,4 @@
-﻿
-
-namespace RefactoringExample.Domain;
+﻿namespace RefactoringExample.Domain;
 
 
 public class Invoice(string customer, List<Performance> performances, List<Play> plays)

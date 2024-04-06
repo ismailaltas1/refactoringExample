@@ -2,7 +2,7 @@ using RefactoringExample.Domain;
 
 namespace RefactoringExample.Calculator;
 
-public class ComedyCalculator(Performance performance, Play play) : PerformanceCalculator(performance, play)
+public class ComedyPerformanceCalculator(Performance performance) : PerformanceCalculator(performance)
 {
     public override decimal Amount
     {

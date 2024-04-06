@@ -1,5 +1,4 @@
 using System.Globalization;
-
 namespace RefactoringExample.Helper;
 
 public static class FormatHelper
