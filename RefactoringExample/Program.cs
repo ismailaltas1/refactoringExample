@@ -29,7 +29,7 @@ var invoice = new Invoice
 );
 
 
-var statement = invoice.RenderPlaintText();
-var htmlStatement = invoice.RenderHtml();
+var statement = invoice.HtmlStatement();
+var htmlStatement = invoice.TextStatement();
 System.Console.WriteLine(statement);
 Console.Write(htmlStatement);

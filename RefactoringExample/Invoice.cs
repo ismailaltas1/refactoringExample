@@ -19,47 +19,20 @@ public class Invoice
 
 
 
-    public string Statement()
+
+    public string TextStatement()
     {
-      
-        return RenderPlaintText();
-        
+        return new PlainTextStatementRenderer(this).Render();
     }
 
-
-    public string RenderPlaintText()
+    public string HtmlStatement()
     {
-        string result = $"Statement for {Customer}\n";
-        foreach (Performance perf in Performances)
-        {
-            result += $"  {PlayFor(perf).Name}: {Usd(AmountFor(perf))} ({perf.Audience} seats)\n";
-        }
-        
-        result += $"Amount owed is {Usd( GetTotalAmount())}\n";
-        result += $"You earned {TotalVolumeCredits()} credits\n";
-        return result;
+        return new HtmlStatementRenderer(this).Render();
     }
+
     
-    public string RenderHtml()
-    {
-        string result = $"<h1>Statement for {Customer}</h1>\n";
-        result += "<table>\n";
-        result += "<tr><th>play</th><th>seats</th><th>cost</th></tr>";
 
-        foreach (Performance perf in Performances)
-        {
-            result += $"<tr><td>{PlayFor(perf).Name}</td><td>{perf.Audience}</td>";
-            result += $"<td>{Usd(AmountFor(perf))}</td></tr>\n";
-        }
-
-        result += "</table>\n";
-        result += $"<p>Amount owed is <em>{Usd(GetTotalAmount())}</em></p>\n";
-        result += $"<p>You earned <em>{TotalVolumeCredits()}</em> credits</p>\n";
-        return result;
-    }
-
-
-    private decimal GetTotalAmount()
+    public decimal GetTotalAmount()
     {
         decimal totalAmount = 0;
         foreach (Performance perf in Performances)
@@ -70,7 +43,7 @@ public class Invoice
         return totalAmount;
     }
 
-    private int TotalVolumeCredits()
+    public int TotalVolumeCredits()
     {
         int volumeCredits = 0;
         foreach (Performance perf in Performances)
@@ -82,7 +55,7 @@ public class Invoice
         return volumeCredits;
     }
 
-    private string Usd(decimal aNumber)
+    public string Usd(decimal aNumber)
     {
         CultureInfo cultureInfo = new CultureInfo("en-US");
         NumberFormatInfo numberFormat = cultureInfo.NumberFormat;
@@ -101,8 +74,7 @@ public class Invoice
     }
 
 
-
-    private decimal AmountFor( Performance perf)
+    public decimal AmountFor( Performance perf)
     {
         
         decimal result = 0;
@@ -129,8 +101,8 @@ public class Invoice
 
         return result;
     }
-    
-    private Play PlayFor(Performance performance)
+
+    public Play PlayFor(Performance performance)
     {
         return Plays.FirstOrDefault(x => x.Name == performance.PlayID) ?? new Play();
     }
