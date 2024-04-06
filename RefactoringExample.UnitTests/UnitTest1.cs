@@ -1,3 +1,5 @@
+using RefactoringExample.Calculator;
+
 namespace RefactoringExample.UnitTests;
 
 public class Tests
@@ -37,10 +39,10 @@ public class Tests
         // Arrange
         var plays = new List<Play>()
         {
-            new Play { Name = "hamlet", Type = "tragedy" },
-            new Play { Name = "as-like", Type = "comedy" },
-            new Play { Name = "othello", Type = "tragedy" },
-            new Play { Name = "as-like-2", Type = "comedy" }
+            new Play { Name = "hamlet", Type = "tragedy", PerformanceType = PerformanceType.Tragedy},
+            new Play { Name = "as-like", Type = "comedy", PerformanceType = PerformanceType.Comedy },
+            new Play { Name = "othello", Type = "tragedy", PerformanceType = PerformanceType.Tragedy },
+            new Play { Name = "as-like-2", Type = "comedy", PerformanceType = PerformanceType.Comedy }
  
         };
         var invoice = new Invoice

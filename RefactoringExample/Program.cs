@@ -2,16 +2,17 @@
 
 using Newtonsoft.Json;
 using RefactoringExample;
+using RefactoringExample.Calculator;
 
 Console.WriteLine("Hello, World!");
 
 // Arrange
 var plays = new List<Play>()
 {
-  new Play { Name = "hamlet", Type = "tragedy" },
-  new Play { Name = "as-like", Type = "comedy" },
-  new Play { Name = "othello", Type = "tragedy" },
-  new Play { Name = "as-like-2", Type = "comedy" }
+  new Play { Name = "hamlet", Type = "tragedy", PerformanceType = PerformanceType.Tragedy},
+  new Play { Name = "as-like", Type = "comedy", PerformanceType = PerformanceType.Comedy },
+  new Play { Name = "othello", Type = "tragedy", PerformanceType = PerformanceType.Tragedy },
+  new Play { Name = "as-like-2", Type = "comedy", PerformanceType = PerformanceType.Comedy }
  
 };
 

@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using RefactoringExample.Calculator;
 
 namespace RefactoringExample;
 
@@ -74,34 +75,16 @@ public class Invoice
     }
 
 
-    public decimal AmountFor( Performance perf)
+    public decimal AmountFor(Performance perf)
     {
-        
-        decimal result = 0;
-        switch (PlayFor(perf).Type)
+        IPerformanceCalculator calculator = PlayFor(perf).PerformanceType switch
         {
-            case "tragedy":
-                result = 40000;
-                if (perf.Audience > 30)
-                {
-                    result += 1000 * (perf.Audience - 30);
-                }
-                break;
-            case "comedy":
-                result = 30000;
-                if (perf.Audience > 20)
-                {
-                    result += 10000 + 500 * (perf.Audience - 20);
-                }
-                result += 300 * perf.Audience;
-                break;
-            default:
-                throw new Exception($"unknown type: {PlayFor(perf).Type}");
-        }
-
-        return result;
+            PerformanceType.Tragedy => new TragedyPerformanceCalculator(),
+            PerformanceType.Comedy => new ComedyPerformanceCalculator(),
+            _ => throw new Exception($"unknown type: {PlayFor(perf).Type}")
+        };
+        return calculator.CalculateAmount(perf.Audience);
     }
-
     public Play PlayFor(Performance performance)
     {
         return Plays.FirstOrDefault(x => x.Name == performance.PlayID) ?? new Play();
