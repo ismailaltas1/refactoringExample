@@ -29,5 +29,7 @@ var invoice = new Invoice
 );
 
 
-var statement = invoice.GenerateStatement();
+var statement = invoice.RenderPlaintText();
+var htmlStatement = invoice.RenderHtml();
 System.Console.WriteLine(statement);
+Console.Write(htmlStatement);

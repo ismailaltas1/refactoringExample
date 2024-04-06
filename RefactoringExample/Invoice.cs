@@ -19,11 +19,16 @@ public class Invoice
 
 
 
-
-    public string GenerateStatement()
+    public string Statement()
     {
-       
+      
+        return RenderPlaintText();
         
+    }
+
+
+    public string RenderPlaintText()
+    {
         string result = $"Statement for {Customer}\n";
         foreach (Performance perf in Performances)
         {
@@ -34,6 +39,25 @@ public class Invoice
         result += $"You earned {TotalVolumeCredits()} credits\n";
         return result;
     }
+    
+    public string RenderHtml()
+    {
+        string result = $"<h1>Statement for {Customer}</h1>\n";
+        result += "<table>\n";
+        result += "<tr><th>play</th><th>seats</th><th>cost</th></tr>";
+
+        foreach (Performance perf in Performances)
+        {
+            result += $"<tr><td>{PlayFor(perf).Name}</td><td>{perf.Audience}</td>";
+            result += $"<td>{Usd(AmountFor(perf))}</td></tr>\n";
+        }
+
+        result += "</table>\n";
+        result += $"<p>Amount owed is <em>{Usd(GetTotalAmount())}</em></p>\n";
+        result += $"<p>You earned <em>{TotalVolumeCredits()}</em> credits</p>\n";
+        return result;
+    }
+
 
     private decimal GetTotalAmount()
     {
