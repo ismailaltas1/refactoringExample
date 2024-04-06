@@ -18,27 +18,44 @@ public class Invoice
     }
 
 
-    private Play PlayFor(Performance performance)
-    {
-        return Plays.FirstOrDefault(x => x.Name == performance.PlayID) ?? new Play();
-    }
+
 
     public string GenerateStatement()
     {
-        decimal totalAmount = 0;
-        int volumeCredits = 0;
+       
+        
         string result = $"Statement for {Customer}\n";
+        foreach (Performance perf in Performances)
+        {
+            result += $"  {PlayFor(perf).Name}: {Usd(AmountFor(perf))} ({perf.Audience} seats)\n";
+        }
+        
+        result += $"Amount owed is {Usd( GetTotalAmount())}\n";
+        result += $"You earned {TotalVolumeCredits()} credits\n";
+        return result;
+    }
 
+    private decimal GetTotalAmount()
+    {
+        decimal totalAmount = 0;
+        foreach (Performance perf in Performances)
+        {
+            totalAmount += AmountFor(perf);
+        }
 
+        return totalAmount;
+    }
+
+    private int TotalVolumeCredits()
+    {
+        int volumeCredits = 0;
         foreach (Performance perf in Performances)
         {
             volumeCredits += VolumeCreditsFor( perf);
-            result += $"  {PlayFor(perf).Name}: {Usd(AmountFor(perf))} ({perf.Audience} seats)\n";
-            totalAmount += AmountFor(perf);
+            
         }
-        result += $"Amount owed is {Usd(totalAmount)}\n";
-        result += $"You earned {volumeCredits} credits\n";
-        return result;
+
+        return volumeCredits;
     }
 
     private string Usd(decimal aNumber)
@@ -87,5 +104,10 @@ public class Invoice
         }
 
         return result;
+    }
+    
+    private Play PlayFor(Performance performance)
+    {
+        return Plays.FirstOrDefault(x => x.Name == performance.PlayID) ?? new Play();
     }
 }
