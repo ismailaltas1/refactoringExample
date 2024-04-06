@@ -8,10 +8,11 @@ public class StatementCalculator
 {
     public StatementData CreateStatementData(Invoice invoice)
     {
-        var result = new StatementData();
-        result.Customer = invoice.Customer;
-        
-        result.Performances = invoice.Performances.Select(performance => EnrichPerformance(performance, invoice.PlaysFor(performance).PerformanceType)).ToList();;       
+        var result = new StatementData
+        {
+            Customer = invoice.Customer,
+            Performances = invoice.Performances.Select(performance => EnrichPerformance(performance, invoice.PlaysFor(performance).PerformanceType)).ToList()
+        };
         result.TotalAmount = GetTotalAmount(result);
         result.TotalVolumeCredits = TotalVolumeCredits(result);
         return result;
@@ -20,13 +21,7 @@ public class StatementCalculator
     private EnrichedPerformance EnrichPerformance(Performance aPerformance, PerformanceType performanceType)
     {
         var calculator = PerformanceCalculatorFactory.CreatePerformanceCalculator(aPerformance, performanceType);
-        var result = new EnrichedPerformance
-        {
-            PlayID = aPerformance.PlayID,
-            Audience = aPerformance.Audience,
-            Amount = calculator.Amount,
-            VolumeCredits = calculator.VolumeCredits
-        };
+        var result = new EnrichedPerformance(aPerformance.PlayID, aPerformance.Audience, calculator.Amount, calculator.VolumeCredits);
         return result;
     }
     

@@ -9,7 +9,6 @@ public static class FormatHelper
         NumberFormatInfo numberFormat = cultureInfo.NumberFormat;
         numberFormat.CurrencySymbol = "$";
         numberFormat.CurrencyDecimalDigits = 2;
-
         return (aNumber / 100M).ToString("C", numberFormat);
     }
 
