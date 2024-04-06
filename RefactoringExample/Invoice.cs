@@ -17,19 +17,11 @@ public class Invoice
         Plays = plays;
     }
 
-    public string GetPlayType(Performance performance)
+
+    private Play PlayFor(Performance performance)
     {
-
-        var play = Plays.FirstOrDefault(x => x.Name == performance.PlayID);
-        return play == null ? "" : play.Type;
+        return Plays.FirstOrDefault(x => x.Name == performance.PlayID) ?? new Play();
     }
-    public string GetPlayName(Performance performance)
-    {
-
-        var play = Plays.FirstOrDefault(x => x.Name == performance.PlayID);
-        return play == null ? "" : play.Name;
-    }
-
 
     public string GenerateStatement()
     {
@@ -45,15 +37,10 @@ public class Invoice
            
             decimal thisAmount = 0;
 
-            thisAmount = getAmount(perf);
-
-            // add volume credits
+            thisAmount = GetAmount(perf);
             volumeCredits += Math.Max(perf.Audience - 30, 0);
-            // add extra credit for every ten comedy attendees
-            if ("comedy" == GetPlayType(perf)) volumeCredits += perf.Audience / 5;
-
-            // print line for this order
-            result += $"  {GetPlayName(perf)}: {thisAmount / 100:C} ({perf.Audience} seats)\n";
+            if ("comedy" == PlayFor(perf).Type) volumeCredits += perf.Audience / 5;
+            result += $"  {PlayFor(perf).Name}: {thisAmount / 100:C} ({perf.Audience} seats)\n";
             totalAmount += thisAmount;
         }
         result += $"Amount owed is {totalAmount / 100:C}\n";
@@ -61,11 +48,11 @@ public class Invoice
         return result;
     }
 
-    private decimal getAmount( Performance perf)
+    private decimal GetAmount( Performance perf)
     {
         
         decimal result = 0;
-        switch (GetPlayType(perf))
+        switch (PlayFor(perf).Type)
         {
             case "tragedy":
                 result = 40000;
@@ -83,7 +70,7 @@ public class Invoice
                 result += 300 * perf.Audience;
                 break;
             default:
-                throw new Exception($"unknown type: {GetPlayType(perf)}");
+                throw new Exception($"unknown type: {PlayFor(perf).Type}");
         }
 
         return result;
